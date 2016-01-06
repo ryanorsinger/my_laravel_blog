@@ -34,12 +34,12 @@ Route::get('/', function()
 
 Route::get('/resume', function()
 {
-    return "This is my resume";
+    return View::make('resume');
 });
 
 Route::get('/portfolio', function()
 {
-    return "This is my portfolio";
+    return View::make('portfolio');
 });
 
 
