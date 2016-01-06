@@ -15,3 +15,21 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('/resume', function()
+{
+    return "This is my resume";
+});
+
+Route::get('/portfolio', function()
+{
+    return "This is my portfolio";
+});
+
+
+Route::get('/howdy/{name?}', function($name = '')
+{
+   $data = ['name' => $name];
+
+   return View::make('hello')->with($data);
+});
