@@ -15,16 +15,9 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function rollDice($guess)
+	public function showWelcome()
 	{
-		$value = mt_rand(1, 6);
-
-	    $data = array(
-	        'userGuess' => $guess,
-	        'diceRoll'  => $value
-	    );
-
-	    return View::make('roll-dice', $data);
+	    return View::make('hello');
 	}
 
 	public function sayHello($name = '')
@@ -32,6 +25,18 @@ class HomeController extends BaseController {
 		$data = ['name' => $name, 'cohorts' => []];
 
    		return View::make('hello', $data);
+	}
+
+	public function rollDice($userGuess)
+	{
+		$diceRoll = mt_rand(1, 6);
+
+	    $data = array(
+	        'userGuess' => $userGuess,
+	        'diceRoll'  => $diceRoll
+	    );
+
+	    return View::make('roll-dice', $data);
 	}
 
 	public function showResume()
@@ -44,25 +49,5 @@ class HomeController extends BaseController {
 		return View::make('portfolio');
 	}
 
-	public function showWelcome()
-	{
-	    $data = array(
-	        'name' => 'Codeup',
-	        'cohorts' => array(
-	            'Arches',
-	            'Badlands',
-	            'Carlsbad',
-	            'Denali',
-	            'Everglades',
-	            'Franklin',
-	            'Glacier',
-	            'Hapmton',
-	            'Ike',
-	            'Apollo',
-	            'Balboa'
-	        )
-	    );
-		return View::make('hello', $data);
-	}
 
 }
