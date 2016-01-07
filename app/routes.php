@@ -13,23 +13,51 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+    $data = array(
+        'name' => 'Codeup',
+        'cohorts' => array(
+            'Arches',
+            'Badlands',
+            'Carlsbad',
+            'Denali',
+            'Everglades',
+            'Franklin',
+            'Glacier',
+            'Hapmton',
+            'Ike',
+            'Apollo',
+            'Balboa'
+        )
+    );
+	return View::make('hello', $data);
 });
 
 Route::get('/resume', function()
 {
-    return "This is my resume";
+    return View::make('resume');
 });
 
 Route::get('/portfolio', function()
 {
-    return "This is my portfolio";
+    return View::make('portfolio');
 });
 
 
 Route::get('/howdy/{name?}', function($name = '')
 {
-   $data = ['name' => $name];
+   $data = ['name' => $name, 'cohorts' => []];
 
-   return View::make('hello')->with($data);
+   return View::make('hello', $data);
+});
+
+Route::get('rolldice/{guess}', function($guess)
+{
+    $value = mt_rand(1, 6);
+    
+    $data = array(
+        'userGuess' => $guess,
+        'diceRoll'  => $value
+    );
+    
+    return View::make('roll-dice', $data);
 });
