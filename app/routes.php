@@ -11,53 +11,12 @@
 |
 */
 
-Route::get('/', function()
-{
-    $data = array(
-        'name' => 'Codeup',
-        'cohorts' => array(
-            'Arches',
-            'Badlands',
-            'Carlsbad',
-            'Denali',
-            'Everglades',
-            'Franklin',
-            'Glacier',
-            'Hapmton',
-            'Ike',
-            'Apollo',
-            'Balboa'
-        )
-    );
-	return View::make('hello', $data);
-});
+Route::get('/', 'HomeController@showWelcome');
 
-Route::get('/resume', function()
-{
-    return View::make('resume');
-});
+Route::get('/resume', 'HomeController@showResume');
 
-Route::get('/portfolio', function()
-{
-    return View::make('portfolio');
-});
+Route::get('/portfolio', 'HomeController@showPortfolio');
 
+Route::get('/howdy/{name?}', 'HomeController@sayHello');
 
-Route::get('/howdy/{name?}', function($name = '')
-{
-   $data = ['name' => $name, 'cohorts' => []];
-
-   return View::make('hello', $data);
-});
-
-Route::get('rolldice/{guess}', function($guess)
-{
-    $value = mt_rand(1, 6);
-    
-    $data = array(
-        'userGuess' => $guess,
-        'diceRoll'  => $value
-    );
-    
-    return View::make('roll-dice', $data);
-});
+Route::get('rolldice/{guess}', 'HomeController@rollDice');
