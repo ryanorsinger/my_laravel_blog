@@ -20,7 +20,7 @@ class PostsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return 'show a create form here';
+		return View::make('posts.create');
 	}
 
 
@@ -31,7 +31,17 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		return 'this saves';
+		$post = new Post();
+		$post->title = Input::get('title');
+		$post->body = Input::get('body');
+
+		$result = $post->save();
+
+		if($result) {
+			return "Your post was saved!";
+		} else {
+			return Redirect::back();
+		}
 	}
 
 
@@ -43,7 +53,10 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		return 'show a specific one';
+		$post = Post::find($id);
+
+		return "You requested the post with the id of $id";
+		// return View::make('posts.show')->with('post', $post);
 	}
 
 
@@ -68,6 +81,7 @@ class PostsController extends \BaseController {
 	public function update($id)
 	{
 		return 'update posts';
+		//
 	}
 
 
@@ -82,5 +96,13 @@ class PostsController extends \BaseController {
 		//
 	}
 
+	public function showAuthorPosts($username)
+	{
 
+	}
+
+	public function search($search)
+	{
+
+	}
 }
