@@ -49,6 +49,17 @@ class HomeController extends BaseController {
 		return View::make('portfolio');
 	}
 
+	public function showForm()
+	{
+		return View::make('testform');
+	}
+
+	public function handleForm()
+	{
+		return Redirect::back()->withInput();
+		// dd(Input::all());
+	}
+
 
 }
 

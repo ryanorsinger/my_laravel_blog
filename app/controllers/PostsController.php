@@ -11,6 +11,7 @@ class PostsController extends \BaseController {
 	{
 		$posts = Post::all();
 		return View::make('posts.index')->with('posts', $posts);
+
 	}
 
 
@@ -41,9 +42,8 @@ class PostsController extends \BaseController {
 		if($result) {
 			return "Your post was saved!";
 		} else {
-			return Redirect::back();
+			return Redirect::back()->withInput();
 		}
-
 	}
 
 
@@ -56,10 +56,7 @@ class PostsController extends \BaseController {
 	public function show($id)
 	{
 		$post = Post::find($id);
-
-		return "You requested the post with the id of $id";
-
-		// return View::make('posts.show')->with('post', $post);
+		return View::make('posts.show')->with('post', $post);
 	}
 
 
@@ -71,7 +68,7 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		return 'an edit form';
 	}
 
 
@@ -83,6 +80,7 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		return 'update posts';
 		//
 	}
 
@@ -97,7 +95,6 @@ class PostsController extends \BaseController {
 	{
 		//
 	}
-
 
 	public function showAuthorPosts($username)
 	{
