@@ -3,7 +3,12 @@
 @section('content')
 
     @foreach($posts as $post)
-        <h1><a href="{{{ action('PostsController@show', $post->id) }}}">{{{ $post->title }}}</a></h1>
-        <p>{{{ $post->body }}} </p>
+        <h2>{{{ $post->title }}}</h2>
+        <p>{{{ $post->body }}}</p>
     @endforeach
+
+    {{ $posts->links() }}
+
+    <p><small>{{ $posts->getPerPage() }} of {{ $posts->getTotal() }}</small></p>
 @stop
+

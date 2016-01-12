@@ -7,7 +7,7 @@ class Post extends Eloquent
     protected $fillable = array('title', 'body');
 
     public static $rules = array(
-        'title'      => 'required|min:10|max:100',
+        'title'      => 'required|min: 5|max:100',
         'body'       => 'required|max:10000'
     );
 }

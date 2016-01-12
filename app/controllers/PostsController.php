@@ -9,9 +9,8 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$posts = Post::all();
+		$posts = Post::paginate(4);
 		return View::make('posts.index')->with('posts', $posts);
-
 	}
 
 
@@ -32,16 +31,14 @@ class PostsController extends \BaseController {
 	 * @return Response
 	 */
 	public function store()
-	{
-		$validator = Validator::make(Input::all(), Post::$rules);
 
-		// inputs fail validation
-		if($validator->fails()) {
+		// create the validator
+	    $validator = Validator::make(Input::all(), Post::$rules);
 
-        	return Redirect::back()->withInput()->withErrors($validator);
+	    // attempt validation
+	    if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
 		} else {
-		// inputs are valid
-
 			$post = new Post();
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
@@ -79,7 +76,8 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		return 'an edit form';
+		$post = Post::find($id);
+		return View::make('posts.edit')->with('post', $post);
 	}
 
 
