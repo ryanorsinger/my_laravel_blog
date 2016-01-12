@@ -33,16 +33,26 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$post = new Post();
-		$post->title = Input::get('title');
-		$post->body = Input::get('body');
+		$validator = Validator::make(Input::all(), Post::$rules);
 
-		$result = $post->save();
+		// inputs fail validation
+		if($validator->fails()) {
 
-		if($result) {
-			return "Your post was saved!";
+        	return Redirect::back()->withInput()->withErrors($validator);
 		} else {
-			return Redirect::back()->withInput();
+		// inputs are valid
+
+			$post = new Post();
+			$post->title = Input::get('title');
+			$post->body = Input::get('body');
+
+			$result = $post->save();
+
+			if($result) {
+				return "Your post was saved!";
+			} else {
+				return Redirect::back()->withInput();
+			}
 		}
 	}
 
@@ -56,6 +66,7 @@ class PostsController extends \BaseController {
 	public function show($id)
 	{
 		$post = Post::find($id);
+
 		return View::make('posts.show')->with('post', $post);
 	}
 
