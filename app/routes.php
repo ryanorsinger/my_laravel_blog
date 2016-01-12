@@ -25,14 +25,54 @@ Route::get('/posts/search/{search}', 'PostsController@search');
 Route::get('/posts/my-posts/{username}', 'PostsController@showAuthorPosts');
 Route::resource('/posts', 'PostsController');
 
+Route::get('orm-test', function ()
+{
+    // All posts(index)
+    $posts = Post::all();
+    // loop through to show each
 
-// These are the manually added routes that perform the same work
-// As our Route::resource(/posts', 'PostsController');
-//
-// Route::get('/posts', 'PostsController@index');
-// Route::get('/posts/create', 'PostsController@create');
-// Route::get('/posts/{id}', 'PostsController@show');
-// Route::get('/posts/{id}/edit', 'PostsController@edit');
-// Route::post('/posts', 'PostsController@store');
-// Route::put('/posts/{post}', 'PostsController@update');
-// Route::delete('/posts/{post}', 'PostsController@destroy');
+    // Showing (show)
+    $post = Post::find(1);
+    echo $post->title;
+    echo $post->body;
+
+    // Deleting (destroy)
+    $post = Post::find(5);
+    $post->delete();
+
+    //Saving (store)
+    $post = new Post();
+    $post->title = 'Some title';
+    $post->body = 'We have body again';
+    $post->save();
+
+    // // Editing/Updating (update)
+    $post = Post::find(2);
+    $post->title = 'A better title 3';
+    $post->save();
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

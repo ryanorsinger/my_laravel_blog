@@ -9,7 +9,8 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$posts = Post::paginate(4);
+		return View::make('posts.index')->with('posts', $posts);
 	}
 
 
@@ -31,18 +32,23 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$post = new Post();
-		$post->title = Input::get('title');
-		$post->body = Input::get('body');
+		// create the validator
+	    $validator = Validator::make(Input::all(), Post::$rules);
 
-		$result = $post->save();
-
-		if($result) {
-			return "Your post was saved!";
+	    // attempt validation
+	    if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
 		} else {
-			return Redirect::back();
-		}
+			$post = new Post();
+			$post->title = Input::get('title');
+			$post->body = Input::get('body');
 
+			$result = $post->save();
+
+			if($result) {
+				return "Your post was saved!";
+			}
+		}
 	}
 
 
@@ -55,10 +61,7 @@ class PostsController extends \BaseController {
 	public function show($id)
 	{
 		$post = Post::find($id);
-
-		return "You requested the post with the id of $id";
-
-		// return View::make('posts.show')->with('post', $post);
+		return View::make('posts.show')->with('post', $post);
 	}
 
 
@@ -70,7 +73,8 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$post = Post::find($id);
+		return View::make('posts.edit')->with('post', $post);
 	}
 
 
@@ -82,6 +86,7 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		return 'update posts';
 		//
 	}
 
@@ -96,7 +101,6 @@ class PostsController extends \BaseController {
 	{
 		//
 	}
-
 
 	public function showAuthorPosts($username)
 	{
