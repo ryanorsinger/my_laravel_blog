@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-    {{ Form::open(array('action' => array('PostsController@update', $post->id), 'method' => 'PUT')) }}
+    {{ Form::model($post, array('action' => array('PostsController@update', $post->id), 'method' => 'PUT')) }}
 
         <div class="form-group {{ ($errors->has('title')) ? 'has-error' : '' }}">
             <label class="control-label" for="title">Title {{ $errors->first('title', '<span class="error">:message</span>') }}</label>
-            
+
             <input id="title" class="form-control " type="text" name="title" placeholder="Enter your title here" value="{{{ $post->title }}}">
         </div>
 

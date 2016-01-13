@@ -52,27 +52,3 @@ Route::get('orm-test', function ()
     $post->save();
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
