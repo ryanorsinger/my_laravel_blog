@@ -16,4 +16,9 @@ class Post extends BaseModel
         $this->attributes['title'] = $value;
         $this->attributes['slug']  = uniqid() . '-' . Str::slug($value);
     }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
 }
