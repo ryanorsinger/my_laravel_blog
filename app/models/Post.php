@@ -10,4 +10,10 @@ class Post extends BaseModel
         'title'      => 'required|min: 5|max:100',
         'body'       => 'required|max:10000'
     );
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug']  = uniqid() . '-' . Str::slug($value);
+    }
 }
