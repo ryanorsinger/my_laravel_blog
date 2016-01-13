@@ -27,4 +27,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	    'email'      => 'required|max:100',
 	    'username'   => 'required|max:10000'
 	);
+
+	public function setPasswordAttribute($value)
+	{
+		$this->attributes['password'] = Hash::make($value);
+	}
 }
