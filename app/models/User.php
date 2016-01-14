@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
@@ -27,4 +27,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    'email'      => 'required|max:100',
 	    'username'   => 'required|max:10000'
 	);
+
+	public function setPasswordAttribute($value)
+	{
+		$this->attributes['password'] = Hash::make($value);
+	}
+
+	public function posts()
+	{
+		return $this->hasMany('Post');
+	}
 }
