@@ -15,8 +15,25 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$posts = Post::paginate(4);
-		return View::make('posts.index')->with('posts', $posts);
+		$query = Post::with('user');
+		
+		if (Input::has('search')) {
+			$search = Input::get('search');
+			$query->where('title',  'like', "%$search%");
+			$query->orWhere('body', 'like', "%$search%");
+			
+			$query->orWhereHas('user', function($q) use ($search) {
+				$q->where('email', 'like', "%$search%");
+			});
+		}
+		
+		$posts = $query->paginate(4);
+		
+		if (Request::wantsJson()) {
+            return Response::json($posts);
+        } else {
+			return View::make('posts.index')->with('posts', $posts);
+        }
 	}
 
 
