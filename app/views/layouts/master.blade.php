@@ -18,15 +18,15 @@
             </div>
         </header>
 
-        @if (Session::has('successMessage'))
-            <div class="alert alert-success">{{{ Session::get('successMessage') }}}</div>
-        @endif
-        @if (Session::has('errorMessage'))
-            <div class="alert alert-danger">{{{ Session::get('errorMessage') }}}</div>
-        @endif
 
         <main class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+                @if (Session::has('successMessage'))
+                    <div class="alert alert-success">{{{ Session::get('successMessage') }}}</div>
+                @endif
+                @if (Session::has('errorMessage'))
+                    <div class="alert alert-danger">{{{ Session::get('errorMessage') }}}</div>
+                @endif
                 @yield('content')
             </div>
         </main>
