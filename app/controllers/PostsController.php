@@ -1,6 +1,12 @@
 <?php
 
 class PostsController extends \BaseController {
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->beforeFilter('auth', array('except' => array('index', 'show')));
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -80,7 +86,8 @@ class PostsController extends \BaseController {
 		} else {
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
-
+			$post->user_id = Auth::id();
+			
 			$result = $post->save();
 
 			if($result) {
@@ -91,23 +98,14 @@ class PostsController extends \BaseController {
 		}
 	}
 
-
 	public function destroy($id)
 	{
 		$post = Post::find($id);
 		$post->delete();
 
+		$message = 'Post was deleted';
+
+		Session::flash('successMessage', $message);
 		return Redirect::action('PostsController@index');
 	}
-
-	public function showAuthorPosts($username)
-	{
-
-	}
-
-	public function search($search)
-	{
-
-	}
-
 }

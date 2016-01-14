@@ -60,7 +60,30 @@ class HomeController extends BaseController {
 		// dd(Input::all());
 	}
 
-
+	public function getLogin()
+	{
+		return View::make('login');
+	}
+	public function postLogin()
+	{
+		$email    = Input::get('email');
+		$password = Input::get('password');
+		
+		if (Auth::attempt(array('email' => $email, 'password' => $password))) {
+			Session::flash('successMessage', 'Welcome to the blog, user!');
+		    return Redirect::intended('/posts/create');
+		} else {
+		    // login failed, go back to the login screen
+		    Session::flash('errorMessage', 'Login Failed! Please check your username & password and try again.');
+		    return Redirect::back()->withInput();
+		}
+	}
+	public function getLogout()
+	{
+		Auth::logout();
+		Session::flash('successMessage', 'Thank you, come again!');
+		return Redirect::action('PostsController@index');
+	}
 }
 
 

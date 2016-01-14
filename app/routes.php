@@ -21,34 +21,10 @@ Route::get('/howdy/{name?}', 'HomeController@sayHello');
 
 Route::get('rolldice/{guess}', 'HomeController@rollDice');
 
-Route::get('/posts/search/{search}', 'PostsController@search');
-Route::get('/posts/my-posts/{username}', 'PostsController@showAuthorPosts');
+Route::get('login',  'HomeController@getLogin');
+Route::post('login', 'HomeController@postLogin');
+Route::get('logout', 'HomeController@getLogout');
+
+Route::get('posts/manage', 'PostsController@managePosts');
+
 Route::resource('/posts', 'PostsController');
-
-Route::get('orm-test', function ()
-{
-    // All posts(index)
-    $posts = Post::all();
-    // loop through to show each
-
-    // Showing (show)
-    $post = Post::find(1);
-    echo $post->title;
-    echo $post->body;
-
-    // Deleting (destroy)
-    $post = Post::find(5);
-    $post->delete();
-
-    //Saving (store)
-    $post = new Post();
-    $post->title = 'Some title';
-    $post->body = 'We have body again';
-    $post->save();
-
-    // // Editing/Updating (update)
-    $post = Post::find(2);
-    $post->title = 'A better title 3';
-    $post->save();
-
-});
