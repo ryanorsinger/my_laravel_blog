@@ -122,7 +122,16 @@ class PostsController extends \BaseController {
 
 		$message = 'Post was deleted';
 
-		Session::flash('successMessage', $message);
-		return Redirect::action('PostsController@index');
+		if (Request::wantsJson()) {
+			return Response::json(array('message' => $message));
+		} else {
+			Session::flash('successMessage', $message);
+			return Redirect::action('PostsController@index');
+		}
+	}
+	
+	public function managePosts()
+	{
+		return View::make('posts.manage');
 	}
 }

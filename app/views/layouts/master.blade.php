@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->    <title>My Blog is Bloggy</title>
-
+    
+    <!-- Add CSRF Token as a meta tag in your head -->
+    <meta name="csrf-token" content="{{{ csrf_token() }}}">
+    
     <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
 
     @yield('top-script')
