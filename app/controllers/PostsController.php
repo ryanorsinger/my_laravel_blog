@@ -1,6 +1,12 @@
 <?php
 
 class PostsController extends \BaseController {
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->beforeFilter('auth', array('except' => array('index', 'show')));
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -9,8 +15,25 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$posts = Post::paginate(4);
-		return View::make('posts.index')->with('posts', $posts);
+		$query = Post::with('user');
+		
+		if (Input::has('search')) {
+			$search = Input::get('search');
+			$query->where('title',  'like', "%$search%");
+			$query->orWhere('body', 'like', "%$search%");
+			
+			$query->orWhereHas('user', function($q) use ($search) {
+				$q->where('email', 'like', "%$search%");
+			});
+		}
+		
+		$posts = $query->paginate(4);
+		
+		if (Request::wantsJson()) {
+            return Response::json($posts);
+        } else {
+			return View::make('posts.index')->with('posts', $posts);
+        }
 	}
 
 
@@ -80,7 +103,8 @@ class PostsController extends \BaseController {
 		} else {
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
-
+			$post->user_id = Auth::id();
+			
 			$result = $post->save();
 
 			if($result) {
@@ -91,23 +115,23 @@ class PostsController extends \BaseController {
 		}
 	}
 
-
 	public function destroy($id)
 	{
 		$post = Post::find($id);
 		$post->delete();
 
-		return Redirect::action('PostsController@index');
-	}
+		$message = 'Post was deleted';
 
-	public function showAuthorPosts($username)
+		if (Request::wantsJson()) {
+			return Response::json(array('message' => $message));
+		} else {
+			Session::flash('successMessage', $message);
+			return Redirect::action('PostsController@index');
+		}
+	}
+	
+	public function managePosts()
 	{
-
+		return View::make('posts.manage');
 	}
-
-	public function search($search)
-	{
-
-	}
-
 }
