@@ -3,7 +3,10 @@
 @section('content')
 
     @foreach($posts as $post)
-        <h2>{{{ $post->title }}}</h2>
+        <h2>
+            {{{ $post->title }}}
+            <small>{{{ $post->user->email }}}</small>
+        </h2>
         <p>{{{ $post->body }}}</p>
     @endforeach
 
