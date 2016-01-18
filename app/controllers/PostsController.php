@@ -4,7 +4,7 @@ class PostsController extends \BaseController {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->beforeFilter('auth', array('except' => array('index', 'show')));
 	}
 
@@ -16,19 +16,19 @@ class PostsController extends \BaseController {
 	public function index()
 	{
 		$query = Post::with('user');
-		
+
 		if (Input::has('search')) {
 			$search = Input::get('search');
 			$query->where('title',  'like', "%$search%");
 			$query->orWhere('body', 'like', "%$search%");
-			
+
 			$query->orWhereHas('user', function($q) use ($search) {
 				$q->where('email', 'like', "%$search%");
 			});
 		}
-		
+
 		$posts = $query->paginate(4);
-		
+
 		if (Request::wantsJson()) {
             return Response::json($posts);
         } else {
@@ -47,8 +47,6 @@ class PostsController extends \BaseController {
 		return View::make('posts.create');
 	}
 
-
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -57,7 +55,8 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$post = Post::find($id);
+		$post = Post::where('id', $id)
+						->orWhere('slug', $id)->first();
 
 		if(!$post) {
 			Session::flash('errorMessage', 'This post does not exist');
@@ -104,7 +103,7 @@ class PostsController extends \BaseController {
 			$post->title = Input::get('title');
 			$post->body = Input::get('body');
 			$post->user_id = Auth::id();
-			
+
 			$result = $post->save();
 
 			if($result) {
@@ -129,7 +128,7 @@ class PostsController extends \BaseController {
 			return Redirect::action('PostsController@index');
 		}
 	}
-	
+
 	public function managePosts()
 	{
 		return View::make('posts.manage');

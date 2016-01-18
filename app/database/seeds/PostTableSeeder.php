@@ -5,7 +5,7 @@ class PostTableSeeder extends Seeder {
     public function run()
     {
         $user = User::firstOrFail();
-        
+
         $post1 = new Post;
         $post1->title = 'Some title 1';
         $post1->body = 'A body 1';

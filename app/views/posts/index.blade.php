@@ -4,7 +4,7 @@
 
     @foreach($posts as $post)
         <h2>
-            {{{ $post->title }}}
+            <a href="{{{ action('PostsController@show', $post->slug)}}}">{{{ $post->title }}}</a>
             <small>{{{ $post->user->email }}}</small>
         </h2>
         <p>{{{ $post->body }}}</p>

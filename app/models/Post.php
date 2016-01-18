@@ -14,11 +14,33 @@ class Post extends BaseModel
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
-        $this->attributes['slug']  = uniqid() . '-' . Str::slug($value);
+        $this->attributes['slug']  = $this->makeUniqueSlug($value);
     }
 
     public function user()
     {
         return $this->belongsTo('User');
+    }
+
+    public function isUniqueSlug($slug)
+    {
+        $posts = Post::all();
+        foreach($posts as $post) {
+            if($post->slug == $slug) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function makeUniqueSlug($value)
+    {
+        $slug = Str::slug($value);
+        if($this->isUniqueSlug($slug)) {
+            return $slug;
+        } else {
+            return uniqid() . '-' . $slug;
+        }
     }
 }

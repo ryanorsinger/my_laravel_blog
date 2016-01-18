@@ -28,3 +28,10 @@ Route::get('logout', 'HomeController@getLogout');
 Route::get('posts/manage', 'PostsController@managePosts');
 
 Route::resource('/posts', 'PostsController');
+
+Route::resource('tags', 'TagsController');
+
+Route::get('/contact', 'HomeController@getContact');
+Route::post('/contact', 'HomeController@doContact');
+
+Route::get('/email-sent-successfully', 'HomeController@getEmailSentPage');

@@ -6,6 +6,9 @@ return array(
     'DB_USER' => '',
     'DB_PASS' => '',
 
-    'USER_PASS' => ''
+    'USER_PASS' => '',
+
+    'MAILGUN_DOMAIN' => '',
+    'MAILGUN_KEY' => ''
 
 );
